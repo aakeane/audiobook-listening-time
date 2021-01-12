@@ -1,24 +1,27 @@
 const form = document.querySelector("#form");
 
-form.addEventListener("input", totalTime);
+form.addEventListener("input", function (e) {
+  e.preventDefault();
+  const elems = document.querySelector("#form").elements;
+
+  // Check all fields are completed otherwise clear output result
+  for (let i = 0; i < elems.length; i++) {
+    if (elems[i].value === "") {
+      clearOutput();
+      return;
+    }
+  }
+  totalTime(e);
+});
 
 function totalTime(e) {
   e.preventDefault();
-
-  const elements = document.querySelectorAll(".form-control");
 
   let playS = document.querySelector("#playback-speed");
   let hr = document.querySelector("#hours");
   let mins = document.querySelector("#minutes");
   // Store original hour, mins & playback speed for the output
   const arr = [hr.value, mins.value, playS.value];
-
-  // Authenticate that no fields are empty before calculation
-  for (let i = 0; i < elements.length; i++) {
-    if (elements[i].value === "") {
-      return;
-    }
-  }
 
   let playbackSpeed = playS.value;
   let hours = hr.value * 60;
@@ -50,4 +53,8 @@ function outputInfo(time, arr) {
   document.querySelector(
     "#output"
   ).innerHTML = `<p class="fw-lighter fst-italic fs-3">${arr[0]} hours ${arr[1]} mins at ${arr[2]}x =</em></p> <p class="display-6">${rhours} hour(s) and ${rminutes} minute(s)</p`;
+}
+
+function clearOutput() {
+  document.querySelector("#output").innerHTML = "";
 }
