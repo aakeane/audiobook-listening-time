@@ -11,36 +11,25 @@ form.addEventListener("input", function (e) {
       return;
     }
   }
+  // If all fields are completed run time calculator
   totalTime(e);
 });
 
 function totalTime(e) {
   e.preventDefault();
 
-  let playS = document.querySelector("#playback-speed");
-  let hr = document.querySelector("#hours");
-  let mins = document.querySelector("#minutes");
+  const playS = document.querySelector("#playback-speed").value;
+  const hr = document.querySelector("#hours").value;
+  const mins = document.querySelector("#minutes").value;
   // Store original hour, mins & playback speed for the output
-  const arr = [hr.value, mins.value, playS.value];
+  const arr = [hr, mins, playS];
 
-  let playbackSpeed = playS.value;
-  let hours = hr.value * 60;
-  let minutes = mins.value;
+  const hours = hr * 60;
 
-  // If speed is faster than 1x
-  if (playbackSpeed >= 1) {
-    const totalHours = hours / playbackSpeed;
-    const totalMins = minutes / playbackSpeed;
-    const totalTime = totalHours + totalMins;
-    outputInfo(totalTime, arr);
-
-    // If speed is slower than 1x
-  } else {
-    const totalHours = hours / playbackSpeed;
-    const totalMins = minutes / playbackSpeed;
-    const totalTime = totalHours + totalMins;
-    outputInfo(totalTime, arr);
-  }
+  const totalHours = hours / playS;
+  const totalMins = mins / playS;
+  const totalTime = totalHours + totalMins;
+  outputInfo(totalTime, arr);
 }
 
 // Convert total minutes to hours & minutes
